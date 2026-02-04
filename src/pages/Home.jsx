@@ -30,11 +30,24 @@ export default function Home() {
         <div>
             <h1>Landing Page</h1>
             <h2>Top 5 Rented Films</h2>
-            <ul>
-                {topFilms.map((film) => (
-                    <li key={film.id}>{film.title}</li>
-                ))}
-            </ul>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Film Name</th>
+                        <th>Category Name</th>
+                        <th>Rental Count</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {topFilms.map((film) => (
+                        <tr key={film.film_id}>
+                            <td>{film.title}</td>
+                            <td>{film.category_name}</td>
+                            <td>{film.rental_count}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
         </div>
     );
 }
