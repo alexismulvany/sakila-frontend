@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import FilmDetailsModal from "../components/FilmDetailsModal";
+import RentFilmModal from "../components/RentFilmModal";
 
 export default function Films() {
     const [films, setFilms] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
     const [loading, setLoading] = useState(true);
     const [selectedFilmId, setSelectedFilmId] = useState(null);
+    const [rentingFilm, setRentingFilm] = useState(null);
 
     //Fetch films from backend, with optional search query
     //async and await prevent the screen from freezing while waiting for the response
@@ -131,8 +133,8 @@ export default function Films() {
                                 <button
                                     className="btn btn-sm btn-danger"
                                     onClick={(e) => {
-                                        e.stopPropagation(); // Prevents the row click event that shows film details
-                                        handleRentClick(film.film_id, film.title);
+                                        e.stopPropagation();
+                                        setRentingFilm({ id: film.film_id, title: film.title });
                                     }}
                                 >
                                     Rent
@@ -149,6 +151,18 @@ export default function Films() {
                 <FilmDetailsModal
                     filmId={selectedFilmId}
                     onClose={() => setSelectedFilmId(null)}
+                />
+            )}
+
+            {/* Rent Film Modal */}
+            {rentingFilm && (
+                <RentFilmModal
+                    filmId={rentingFilm.id}
+                    filmTitle={rentingFilm.title}
+                    onClose={() => setRentingFilm(null)}
+                    onSuccess={() => {
+                        fetchFilms();
+                    }}
                 />
             )}
         </div>
